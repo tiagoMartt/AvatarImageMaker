@@ -33,6 +33,7 @@ class AvatarImageMaker(private val builder: AvatarImageBuilder) {
         private var height = -1
         private var fitSize = false
 
+        private var randomColors = true
         private var shape = OVAL
         private var backgroundColor = 0
         private var strokeColor = 0
@@ -49,18 +50,35 @@ class AvatarImageMaker(private val builder: AvatarImageBuilder) {
 
         init {
 
-            val colors = getRandomColor()
-
             width = context.resources.getDimension(R.dimen.width).toInt()
             height = context.resources.getDimension(R.dimen.height).toInt()
 
-            backgroundColor = colors[0]
-            strokeColor = colors[1]
             strokeWidth = context.resources.getDimension(R.dimen.strokeWidth).toInt()
             cornerRadius = context.resources.getDimension(R.dimen.cornerRadius)
 
-            textColor = colors[2]
             textSize = context.resources.getDimension(R.dimen.textSize)
+        }
+
+        fun setBuilder(builder: AvatarImageBuilder) = apply {
+
+            width = builder.width
+            height = builder.height
+            fitSize = builder.fitSize
+
+            randomColors = builder.randomColors
+            shape = builder.shape
+            backgroundColor = builder.backgroundColor
+            strokeColor = builder.strokeColor
+            strokeWidth = builder.strokeWidth
+            cornerRadius = builder.cornerRadius
+
+            substringEndIndex = builder.substringEndIndex
+            text = builder.text
+            textColor = builder.textColor
+            textSizeUnit = builder.textSizeUnit
+            textSize = builder.textSize
+            isAllCaps = builder.isAllCaps
+            fontFamilyResId = builder.fontFamilyResId
         }
 
         fun setSize(width: Int, height: Int) = apply {
@@ -70,6 +88,10 @@ class AvatarImageMaker(private val builder: AvatarImageBuilder) {
 
         fun setFitSize(fitSize: Boolean) = apply {
             this.fitSize = fitSize
+        }
+
+        fun setRandomColors(randomColors: Boolean) = apply {
+            this.randomColors = randomColors
         }
 
         fun setShape(shape: Int) = apply {
@@ -127,6 +149,15 @@ class AvatarImageMaker(private val builder: AvatarImageBuilder) {
         }
 
         fun build(): BitmapDrawable {
+
+            if (randomColors) {
+
+                val colors = getRandomColor()
+                backgroundColor = colors[0]
+                strokeColor = colors[1]
+                textColor = colors[2]
+            }
+
             return avatarImageGenerate(context, shape, cornerRadius, backgroundColor, strokeWidth, strokeColor, text, textColor, textSizeUnit, textSize, width, height)
         }
 
