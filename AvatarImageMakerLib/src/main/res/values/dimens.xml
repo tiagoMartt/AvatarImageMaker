@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="width">100dp</dimen>
+    <dimen name="height">100dp</dimen>
+    <dimen name="textSize">18sp</dimen>
+    <dimen name="strokeWidth">4dp</dimen>
+    <dimen name="cornerRadius">3dp</dimen>
+</resources>
